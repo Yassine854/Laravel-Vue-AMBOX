@@ -1,0 +1,2 @@
+# FlashBox
+Laravel+vue
