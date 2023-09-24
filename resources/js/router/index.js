@@ -5,6 +5,10 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
+
+import admin from '../components/admin/admin';
+
+
 import Posts from '../components/Posts';
 import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
@@ -29,6 +33,11 @@ export const routes = [
         name: 'dashboard',
         path: '/dashboard',
         component: Dashboard
+    },
+    {
+        name: 'admin',
+        path: '/admins',
+        component: admin
     },
     {
         name: 'posts',

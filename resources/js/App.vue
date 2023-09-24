@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <!-- <div class="container">
         <nav class="navbar navbar-expand-sm navbar-light bg-light mb-4">
             <a class="navbar-brand" href="#">Laravel Vue 3</a>
             <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
@@ -17,8 +17,9 @@
         </nav>
 
 
-        <router-view></router-view>
-    </div>
+
+    </div> -->
+    <router-view></router-view>
 </template>
 <script>
     export default {

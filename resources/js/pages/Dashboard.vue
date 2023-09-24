@@ -1,8 +1,12 @@
 <template>
-    <div>
+    <layout>
         Welcome {{ name }}
-    </div>
+    </layout>
 </template>
+
+<script setup>
+import layout from '../components/layouts/layout'
+</script>
 
 <script>
 export default {
