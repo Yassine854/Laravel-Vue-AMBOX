@@ -212,4 +212,264 @@ public function disableAdmin($id)
 
     }
 
+
+    //Expediteur
+
+    public function get_all_expediteurs(){
+        $expediteurs=User::where('role', 2)->get();
+        return response()->json([
+            'expediteurs'=>$expediteurs
+        ],200);
+    }
+
+    public function createExpediteur(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users'),
+            ],
+            'password' => 'required|string|min:8',
+        ];
+
+        $messages = [
+            'required' => 'Ce champ est requis.',
+            'string' => 'Ce champ doit être une chaîne de caractères.',
+            'max' => 'Ce champ ne doit pas dépasser :max caractères.',
+            'email' => 'L\'adresse email n\'est pas valide.',
+            'unique' => 'Cet email est déjà utilisé.',
+            'min' => 'Le mot de passe doit avoir au moins :min caractères.',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role=2;
+            $user->save();
+
+            $success = true;
+            $message = "Expediteur register successfully";
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $success = false;
+            $message = $ex->getMessage();
+        }
+
+        $response = [
+            'success' => $success,
+            'message' => $message
+        ];
+
+        return response()->json($response);
+
+    }
+
+
+    public function updateExpediteur(Request $request, $id)
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('users')->ignore($id), // Exclude the current user's email from unique validation
+        ],
+    ];
+
+    $messages = [
+        'required' => 'Ce champ est requis.',
+        'string' => 'Ce champ doit être une chaîne de caractères.',
+        'max' => 'Ce champ ne doit pas dépasser :max caractères.',
+        'email' => 'L\'adresse email n\'est pas valide.',
+        'unique' => 'Cet email est déjà utilisé.',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+
+    try {
+        $user = User::where('id', $id)->where('role', 2)->first(); // Use 'first' to retrieve the user instance
+        if (!$user) {
+            return response()->json(['message' => 'Admin not found'], 404);
+        }
+
+        $user->name = $request->name;
+        if ($user->email !== $request->email) {
+            // Only update the email if it has changed
+            $user->email = $request->email;
+        }
+
+        $user->update();
+
+        $success = true;
+        $message = "Expediteur updated successfully";
+
+    } catch (\Illuminate\Database\QueryException $ex) {
+        $success = false;
+        $message = $ex->getMessage();
+    }
+
+    $response = [
+        'success' => $success,
+        'message' => $message
+    ];
+
+    return response()->json($response);
+}
+
+public function disableExpediteur($id)
+    {
+        $expediteur = User::find($id);
+        $expediteur->disabled=true;
+        $expediteur->save();
+        return response()->json(['success'=> 'expediteur disabled successfully']);
+
+    }
+
+
+     //Livreurs
+
+     public function get_all_livreurs(){
+        $livreurs=User::where('role', 3)->get();
+        return response()->json([
+            'livreurs'=>$livreurs
+        ],200);
+    }
+
+    public function createLivreur(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users'),
+            ],
+            'password' => 'required|string|min:8',
+        ];
+
+        $messages = [
+            'required' => 'Ce champ est requis.',
+            'string' => 'Ce champ doit être une chaîne de caractères.',
+            'max' => 'Ce champ ne doit pas dépasser :max caractères.',
+            'email' => 'L\'adresse email n\'est pas valide.',
+            'unique' => 'Cet email est déjà utilisé.',
+            'min' => 'Le mot de passe doit avoir au moins :min caractères.',
+
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+
+        try {
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role=3;
+            $user->save();
+
+            $success = true;
+            $message = "livreur register successfully";
+
+        } catch (\Illuminate\Database\QueryException $ex) {
+            $success = false;
+            $message = $ex->getMessage();
+        }
+
+        $response = [
+            'success' => $success,
+            'message' => $message
+        ];
+
+        return response()->json($response);
+
+    }
+
+
+    public function updateLivreur(Request $request, $id)
+{
+    $rules = [
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('users')->ignore($id), // Exclude the current user's email from unique validation
+        ],
+    ];
+
+    $messages = [
+        'required' => 'Ce champ est requis.',
+        'string' => 'Ce champ doit être une chaîne de caractères.',
+        'max' => 'Ce champ ne doit pas dépasser :max caractères.',
+        'email' => 'L\'adresse email n\'est pas valide.',
+        'unique' => 'Cet email est déjà utilisé.',
+    ];
+
+    $validator = Validator::make($request->all(), $rules, $messages);
+
+    if ($validator->fails()) {
+        return response()->json(['errors' => $validator->errors()], 400);
+    }
+
+    try {
+        $user = User::where('id', $id)->where('role', 3)->first(); // Use 'first' to retrieve the user instance
+        if (!$user) {
+            return response()->json(['message' => 'Admin not found'], 404);
+        }
+
+        $user->name = $request->name;
+        if ($user->email !== $request->email) {
+            // Only update the email if it has changed
+            $user->email = $request->email;
+        }
+
+        $user->update();
+
+        $success = true;
+        $message = "Expediteur updated successfully";
+
+    } catch (\Illuminate\Database\QueryException $ex) {
+        $success = false;
+        $message = $ex->getMessage();
+    }
+
+    $response = [
+        'success' => $success,
+        'message' => $message
+    ];
+
+    return response()->json($response);
+}
+
+public function disableLivreur($id)
+    {
+        $expediteur = User::find($id);
+        $expediteur->disabled=true;
+        $expediteur->save();
+        return response()->json(['success'=> 'livreur disabled successfully']);
+
+    }
+
 }

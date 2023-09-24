@@ -7,13 +7,29 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 
 
+ //***********Interface Admin**************//
+
+//Admin
 
 Route::get('admins/get_all_admins', [UserController::class, 'get_all_admins']);
 Route::post('admin/create', [UserController::class, 'createAdmin']);
 Route::put('admin/update/{id}', [UserController::class, 'updateAdmin']);
 Route::post('admin/disable/{id}', [UserController::class, 'disableAdmin']);
 
+//Expediteur
 
+Route::get('expediteurs/get_all_expediteurs', [UserController::class, 'get_all_expediteurs']);
+Route::post('expediteur/create', [UserController::class, 'createExpediteur']);
+Route::put('expediteur/update/{id}', [UserController::class, 'updateExpediteur']);
+Route::post('expediteur/disable/{id}', [UserController::class, 'disableExpediteur']);
+
+
+//Livreur
+
+Route::get('livreurs/get_all_livreurs', [UserController::class, 'get_all_livreurs']);
+Route::post('livreur/create', [UserController::class, 'createLivreur']);
+Route::put('livreur/update/{id}', [UserController::class, 'updateLivreur']);
+Route::post('livreur/disable/{id}', [UserController::class, 'disableLivreur']);
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);

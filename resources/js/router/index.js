@@ -6,7 +6,9 @@ import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 
-import admin from '../components/admin/admin';
+import admins from '../components/admin/admin';
+import expediteurs from '../components/admin/expediteur';
+import livreurs from '../components/admin/livreur';
 
 
 import Posts from '../components/Posts';
@@ -35,9 +37,19 @@ export const routes = [
         component: Dashboard
     },
     {
-        name: 'admin',
+        name: 'admins',
         path: '/admins',
-        component: admin
+        component: admins
+    },
+    {
+        name: 'expediteurs',
+        path: '/expediteurs',
+        component: expediteurs
+    },
+    {
+        name: 'livreurs',
+        path: '/livreurs',
+        component: livreurs
     },
     {
         name: 'posts',

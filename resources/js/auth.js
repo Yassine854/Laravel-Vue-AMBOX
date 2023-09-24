@@ -12,4 +12,7 @@ export function checkLoginAdmin() {
     return (window.Laravel.isLoggedin && window.Laravel.user.role==1)
     }
 
-
+//Expediteur auth
+export function checkLoginExpediteur() {
+    return (window.Laravel.isLoggedin && window.Laravel.user.role==2)
+    }

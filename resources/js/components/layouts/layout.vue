@@ -33,20 +33,23 @@
                 Utilisateurs
         </div>
         <!-- Nav Item - Admins -->
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Admins</span></a>
+        <li class="nav-item" :class="{ active: $route.name === 'admins' }">
+          <a :href="$router.resolve({ name: 'admins' }).href" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Admins</span></a
+          >
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Expéditeurs</span></a>
+        <li class="nav-item" :class="{ active: $route.name === 'expediteurs' }">
+          <a :href="$router.resolve({ name: 'expediteurs' }).href" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Expéditeurs</span></a
+          >
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Livreurs</span></a>
+        <li class="nav-item" :class="{ active: $route.name === 'livreurs' }">
+          <a :href="$router.resolve({ name: 'livreurs' }).href" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Livreurs</span></a
+          >
         </li>
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -321,7 +324,7 @@
                                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Settings
                             </a>
-                            
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

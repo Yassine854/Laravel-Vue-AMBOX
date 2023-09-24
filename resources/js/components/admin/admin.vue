@@ -265,7 +265,7 @@
           </tbody>
         </template>
           <tbody v-else>
-            <p>Pas d'admins'</p>
+            <p>Pas d'admins</p>
           </tbody>
         </table>
         </div>
