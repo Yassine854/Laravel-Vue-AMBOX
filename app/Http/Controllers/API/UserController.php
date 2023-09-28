@@ -180,11 +180,7 @@ class UserController extends Controller
         }
 
         $user->name = $request->name;
-        if ($user->email !== $request->email) {
-            // Only update the email if it has changed
-            $user->email = $request->email;
-        }
-
+        $user->email = $request->email;
         $user->update();
 
         $success = true;
@@ -232,6 +228,14 @@ public function disableAdmin($id)
                 'max:255',
                 Rule::unique('users'),
             ],
+            'city'=> 'required',
+            'phone' => [
+                'required',
+                'numeric',
+                'digits:8',
+                Rule::unique('users')->ignore(auth()->user()->id ?? null),
+            ],
+            'address'=> 'required|string|max:255',
             'password' => 'required|string|min:8',
         ];
 
@@ -240,7 +244,11 @@ public function disableAdmin($id)
             'string' => 'Ce champ doit être une chaîne de caractères.',
             'max' => 'Ce champ ne doit pas dépasser :max caractères.',
             'email' => 'L\'adresse email n\'est pas valide.',
-            'unique' => 'Cet email est déjà utilisé.',
+            'email.unique' => 'Cet email est déjà utilisé.',
+            'phone.required' => 'Le numéro de téléphone est requis.',
+            'phone.numeric' => 'Le numéro de téléphone doit être un nombre.',
+            'phone.digits' => 'Le numéro de téléphone doit comporter 8 chiffres.',
+            'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
             'min' => 'Le mot de passe doit avoir au moins :min caractères.',
 
         ];
@@ -255,6 +263,9 @@ public function disableAdmin($id)
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->city=$request->city;
+            $user->phone=$request->phone;
+            $user->address=$request->address;
             $user->password = Hash::make($request->password);
             $user->role=2;
             $user->save();
@@ -285,8 +296,16 @@ public function disableAdmin($id)
             'required',
             'email',
             'max:255',
-            Rule::unique('users')->ignore($id), // Exclude the current user's email from unique validation
+            Rule::unique('users')->ignore($id),
         ],
+        'city'=> 'required',
+        'phone' => [
+            'required',
+            'numeric',
+            'digits:8',
+            Rule::unique('users')->ignore($id),
+        ],
+        'address'=> 'required|string|max:255',
     ];
 
     $messages = [
@@ -294,7 +313,13 @@ public function disableAdmin($id)
         'string' => 'Ce champ doit être une chaîne de caractères.',
         'max' => 'Ce champ ne doit pas dépasser :max caractères.',
         'email' => 'L\'adresse email n\'est pas valide.',
-        'unique' => 'Cet email est déjà utilisé.',
+        'email.unique' => 'Cet email est déjà utilisé.',
+        'phone.required' => 'Le numéro de téléphone est requis.',
+        'phone.numeric' => 'Le numéro de téléphone doit être un nombre.',
+        'phone.digits' => 'Le numéro de téléphone doit comporter 8 chiffres.',
+        'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
+        'min' => 'Le mot de passe doit avoir au moins :min caractères.',
+
     ];
 
     $validator = Validator::make($request->all(), $rules, $messages);
@@ -306,15 +331,14 @@ public function disableAdmin($id)
     try {
         $user = User::where('id', $id)->where('role', 2)->first(); // Use 'first' to retrieve the user instance
         if (!$user) {
-            return response()->json(['message' => 'Admin not found'], 404);
+            return response()->json(['message' => 'Expediteur not found'], 404);
         }
 
         $user->name = $request->name;
-        if ($user->email !== $request->email) {
-            // Only update the email if it has changed
-            $user->email = $request->email;
-        }
-
+        $user->email = $request->email;
+        $user->city=$request->city;
+        $user->phone=$request->phone;
+        $user->address=$request->address;
         $user->update();
 
         $success = true;
@@ -362,6 +386,14 @@ public function disableExpediteur($id)
                 'max:255',
                 Rule::unique('users'),
             ],
+            'city'=> 'required',
+            'phone' => [
+                'required',
+                'numeric',
+                'digits:8',
+                Rule::unique('users')->ignore(auth()->user()->id ?? null),
+            ],
+            'address'=> 'required|string|max:255',
             'password' => 'required|string|min:8',
         ];
 
@@ -370,7 +402,11 @@ public function disableExpediteur($id)
             'string' => 'Ce champ doit être une chaîne de caractères.',
             'max' => 'Ce champ ne doit pas dépasser :max caractères.',
             'email' => 'L\'adresse email n\'est pas valide.',
-            'unique' => 'Cet email est déjà utilisé.',
+            'email.unique' => 'Cet email est déjà utilisé.',
+            'phone.required' => 'Le numéro de téléphone est requis.',
+            'phone.numeric' => 'Le numéro de téléphone doit être un nombre.',
+            'phone.digits' => 'Le numéro de téléphone doit comporter 8 chiffres.',
+            'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
             'min' => 'Le mot de passe doit avoir au moins :min caractères.',
 
         ];
@@ -385,6 +421,9 @@ public function disableExpediteur($id)
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->city=$request->city;
+            $user->phone=$request->phone;
+            $user->address=$request->address;
             $user->password = Hash::make($request->password);
             $user->role=3;
             $user->save();
@@ -415,8 +454,16 @@ public function disableExpediteur($id)
             'required',
             'email',
             'max:255',
-            Rule::unique('users')->ignore($id), // Exclude the current user's email from unique validation
+            Rule::unique('users')->ignore($id),
         ],
+        'city'=> 'required',
+        'phone' => [
+            'required',
+            'numeric',
+            'digits:8',
+            Rule::unique('users')->ignore($id),
+        ],
+        'address'=> 'required|string|max:255',
     ];
 
     $messages = [
@@ -424,7 +471,13 @@ public function disableExpediteur($id)
         'string' => 'Ce champ doit être une chaîne de caractères.',
         'max' => 'Ce champ ne doit pas dépasser :max caractères.',
         'email' => 'L\'adresse email n\'est pas valide.',
-        'unique' => 'Cet email est déjà utilisé.',
+        'email.unique' => 'Cet email est déjà utilisé.',
+        'phone.required' => 'Le numéro de téléphone est requis.',
+        'phone.numeric' => 'Le numéro de téléphone doit être un nombre.',
+        'phone.digits' => 'Le numéro de téléphone doit comporter 8 chiffres.',
+        'phone.unique' => 'Ce numéro de téléphone est déjà utilisé.',
+        'min' => 'Le mot de passe doit avoir au moins :min caractères.',
+
     ];
 
     $validator = Validator::make($request->all(), $rules, $messages);
@@ -440,11 +493,10 @@ public function disableExpediteur($id)
         }
 
         $user->name = $request->name;
-        if ($user->email !== $request->email) {
-            // Only update the email if it has changed
-            $user->email = $request->email;
-        }
-
+        $user->email = $request->email;
+        $user->city=$request->city;
+        $user->phone=$request->phone;
+        $user->address=$request->address;
         $user->update();
 
         $success = true;

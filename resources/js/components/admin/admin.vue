@@ -240,15 +240,25 @@
               <th scope="col">ID</th>
               <th scope="col">Nom</th>
               <th scope="col">E-mail</th>
+              <th scope="col">État</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <template v-if="displayedAdminsSlice.length > 0">
           <tbody v-for="admin in displayedAdminsSlice" :key="admin.id">
-            <tr :class="{ 'table-danger': admin.disabled }" >
+            <tr>
               <th >{{ admin.id }}</th>
               <td >{{ admin.name }}</td>
-              <th  scope="row">{{ admin.email }}</th>
+              <td  scope="row">{{ admin.email }}</td>
+              <td>
+                <div v-if="admin.disabled==false">
+                    <i class="fa-solid fa-circle text-success"></i> <p>Actif</p>
+                </div>
+                <div v-if="admin.disabled==true">
+                    <i class="fa-solid fa-circle text-danger"></i> <p>Désactivé</p>
+                </div>
+            </td>
+
               <td >
                 <a
                   id="crudBtn"

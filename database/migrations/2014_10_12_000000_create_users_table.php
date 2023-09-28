@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->integer('role')->nullable();
             $table->boolean('disabled')->default(false);
+            $table->string('city')->nullable();
+            $table->integer('phone')->nullable();
+            $table->string('address')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

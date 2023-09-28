@@ -39,7 +39,7 @@
                     <div class="d-flex align-items-center">
                     <i class="fa-solid fa-plus fa-xl me-2"></i>
                     <h5 class="modal-title mb-0" id="editProductLabel">
-                        Ajouter un nouvel expediteur
+                        Ajouter un nouvel expéditeur
                     </h5>
                     </div>
 
@@ -114,6 +114,52 @@
                             <span class="invalid-feedback" v-for="(err, index) in validationErrors.password" :key="index">{{ err }}<br></span>
 
                         </div>
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="city" style="float: left">Ville</label>
+                        <select
+                            id="city"
+                            :class="['form-select', {'is-invalid': validationErrors.city}]"
+                            v-model="city"
+                        >
+                            <option value="" disabled>Sélectionner la ville</option>
+                            <option
+                            v-for="city in cities"
+                            :key="city"
+                            :value="city"
+                            >{{ city }}</option>
+                        </select>
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.city" :key="index">{{ err }}<br></span>
+
+                        </div>
+
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phone"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="address" style="float: left">Address</label>
+                        <textarea
+                            :class="['form-control', {'is-invalid': validationErrors.address}]"
+                            id="address"
+                            rows="4"
+                            placeholder="Entrer l'adresse"
+                            v-model="address"
+                        ></textarea>
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.address" :key="index">{{ err }}<br></span>
+                        </div>
+
+
+
                         <div class="modal-footer">
                         <button
                           type="button"
@@ -200,6 +246,50 @@
                             <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.email" :key="index">{{ err }}<br></span>
 
                         </div>
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="city" style="float: left">Ville</label>
+                        <select
+                            id="city"
+                            :class="['form-select', {'is-invalid': validationErrorsEdit.city}]"
+                            v-model="cityEdit"
+                        >
+                            <option value="" disabled>Sélectionner la ville</option>
+                            <option
+                            v-for="city in cities"
+                            :key="city"
+                            :value="city"
+                            >{{ city }}</option>
+                        </select>
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.city" :key="index">{{ err }}<br></span>
+
+                        </div>
+
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phoneEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="address" style="float: left">Address</label>
+                        <textarea
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.address}]"
+                            id="address"
+                            rows="4"
+                            placeholder="Entrer l'adresse"
+                            v-model="addressEdit"
+                        ></textarea>
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.address" :key="index">{{ err }}<br></span>
+                        </div>
+
                         <div class="modal-footer">
                         <button
                           type="button"
@@ -240,15 +330,24 @@
               <th scope="col">ID</th>
               <th scope="col">Nom</th>
               <th scope="col">E-mail</th>
+              <th scope="col">État</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <template v-if="displayedexpediteursSlice.length > 0">
           <tbody v-for="expediteur in displayedexpediteursSlice" :key="expediteur.id">
-            <tr :class="{ 'table-danger': expediteur.disabled }" >
+            <tr>
               <th >{{ expediteur.id }}</th>
               <td >{{ expediteur.name }}</td>
-              <th  scope="row">{{ expediteur.email }}</th>
+              <td  scope="row">{{ expediteur.email }}</td>
+              <td>
+                <div v-if="expediteur.disabled==false">
+                    <i class="fa-solid fa-circle text-success"></i> <p>Actif</p>
+                </div>
+                <div v-if="expediteur.disabled==true">
+                    <i class="fa-solid fa-circle text-danger"></i> <p>Désactivé</p>
+                </div>
+            </td>
               <td >
                 <a
                   id="crudBtn"
@@ -337,6 +436,13 @@ import layout from "../layouts/layout";
         search:[],
         currentPage : 1,
         itemsPerPage : 1,
+        //Cities data
+        cities: [
+      'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte',
+      'Béja', 'Jendouba', 'Le Kef', 'Siliana', 'Sousse', 'Monastir', 'Mahdia',
+      'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Médenine',
+      'Tataouine', 'Gafsa', 'Tozeur', 'Kébili'
+    ],
 
         //get
         expediteurs:[],
@@ -344,11 +450,17 @@ import layout from "../layouts/layout";
         //create
         name: "",
         email: "",
+        city:"",
+        phone:"",
+        address:"",
         password: "",
 
         //edit
         expediteurEdit:[],
         nameEdit: "",
+        cityEdit:"",
+        phoneEdit:"",
+        addressEdit:"",
         emailEdit: "",
 
       };
@@ -417,10 +529,16 @@ import layout from "../layouts/layout";
           await axios.post(`/api/expediteur/create`, {
             name: this.name,
             email: this.email,
+            city:this.city,
+            phone:this.phone,
+            address:this.address,
             password: this.password,
           });
           this.name = "";
           this.email = "";
+          this.city="";
+          this.phone="";
+          this.address="";
           this.password = "";
 
           const toast = Swal.mixin({
@@ -456,13 +574,19 @@ import layout from "../layouts/layout";
     this.expediteurEdit=expediteur;
     this.nameEdit = expediteur.name;
     this.emailEdit=expediteur.email;
+    this.cityEdit=expediteur.city;
+    this.phoneEdit=expediteur.phone;
+    this.addressEdit=expediteur.address;
     },
 
   async updateExpediteur(expediteur) {
   try {
     const response = await axios.put(`/api/expediteur/update/${expediteur.id}`, {
-      name: this.nameEdit,
-      email: this.emailEdit,
+        name: this.nameEdit,
+        email: this.emailEdit,
+        city:this.cityEdit,
+        phone:this.phoneEdit,
+        address:this.addressEdit,
     });
 
     if (response.status === 200) {
@@ -486,6 +610,9 @@ import layout from "../layouts/layout";
       this.expediteurEdit=[];
       this.nameEdit = "";
       this.emailEdit = "";
+      this.cityEdit="";
+      this.phoneEdit="";
+      this.addressEdit="";
     } else {
       this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour de l'expediteur.";
     }

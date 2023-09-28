@@ -16,11 +16,7 @@ import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
 
 export const routes = [
-    {
-        name: 'home',
-        path: '/',
-        component: Home
-    },
+    
     {
         name: 'register',
         path: '/register',
@@ -28,7 +24,7 @@ export const routes = [
     },
     {
         name: 'login',
-        path: '/login',
+        path: '/',
         component: Login
     },
     {
