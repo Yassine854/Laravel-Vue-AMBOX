@@ -8,7 +8,7 @@ use App\Http\Controllers\API\UserController;
 
 
  //***********Interface Admin**************//
-
+ Route::middleware('auth:sanctum')->group(function () {
 //Admin
 
 Route::get('admins/get_all_admins', [UserController::class, 'get_all_admins']);
@@ -31,6 +31,11 @@ Route::post('livreur/create', [UserController::class, 'createLivreur']);
 Route::put('livreur/update/{id}', [UserController::class, 'updateLivreur']);
 Route::post('livreur/disable/{id}', [UserController::class, 'disableLivreur']);
 
+
+
+});
+
+//Auth
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');

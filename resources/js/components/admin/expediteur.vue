@@ -1,5 +1,5 @@
 <template>
-    <layout ref="table">
+    <layout_admin ref="table">
       <div
         class="container shadow p-3"
         style="background-color: white; position: relative"
@@ -398,11 +398,11 @@
 
 
       </div>
-    </layout>
+    </layout_admin>
   </template>
 
 <script setup>
-import layout from "../layouts/layout";
+import layout_admin from "../layouts/layoutAdmin.vue";
   import {
     checkLoginAdmin,
   } from "../../auth";
@@ -417,13 +417,13 @@ import layout from "../layouts/layout";
 
     <script>
   export default {
-      name: "expediteur",
+      name: "expediteurs",
     //check auth
     beforeRouteEnter(to, from, next) {
       if (checkLoginAdmin()) {
         next();
       } else {
-        next("/login");
+        next("/");
       }
     },
     data() {
@@ -435,7 +435,7 @@ import layout from "../layouts/layout";
         Index:0,
         search:[],
         currentPage : 1,
-        itemsPerPage : 1,
+        itemsPerPage : 10,
         //Cities data
         cities: [
       'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte',

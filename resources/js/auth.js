@@ -16,3 +16,8 @@ export function checkLoginAdmin() {
 export function checkLoginExpediteur() {
     return (window.Laravel.isLoggedin && window.Laravel.user.role==2)
     }
+
+//Livreur auth
+export function checkLoginLivreur() {
+    return (window.Laravel.isLoggedin && window.Laravel.user.role==3)
+    }

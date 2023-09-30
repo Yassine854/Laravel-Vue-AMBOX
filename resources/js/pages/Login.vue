@@ -4,10 +4,10 @@
             <div class="col-md-8">
                 <div v-if="error !== null" class="alert alert-danger alert-dismissible fade show" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                
+
                     <strong>{{error}}</strong>
                 </div>
-                
+
                 <div class="card card-default">
                     <div class="card-header"><h5>Login</h5></div>
                     <div class="card-body">
@@ -40,7 +40,7 @@
                             <div class="row mt-1">
                                 <div class="col-md-8 offset-md-4">
                                     <small class="text-muted">
-                                        Don't have any account yet? Please 
+                                        Don't have any account yet? Please
                                         <router-link to="/register" >Register</router-link>
                                     </small>
                                 </div>
@@ -50,13 +50,16 @@
                         </form>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import {
+    checkLoginAdmin,checkLoginExpediteur,checkLoginLivreur
+  } from "../auth";
     export default {
         data() {
             return {
@@ -92,7 +95,19 @@
 
         beforeRouteEnter(to, from, next) {
             if (window.Laravel.isLoggedin) {
-                return next('dashboard');
+                if (checkLoginAdmin()) {
+                    return next('dashboard-admin');
+                }
+               else if (checkLoginExpediteur()) {
+                    return next('dashboard-expediteur');
+                }
+                else if (checkLoginLivreur()) {
+                    return next('dashboard-livreur');
+
+                }
+                else{
+                    next('/');
+                }
             }
             next();
         }

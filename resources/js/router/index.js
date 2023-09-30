@@ -1,10 +1,15 @@
 
 import {createWebHistory, createRouter} from "vue-router";
+import {
+    checkUserRole
+  } from "../auth";
 
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
-import Dashboard from '../pages/Dashboard';
+import DashboardAdmin from '../components/admin/Dashboard';
+import DashboardExpediteur from '../components/expediteur/Dashboard';
+import DashboardLivreur from '../components/livreur/Dashboard';
 
 import admins from '../components/admin/admin';
 import expediteurs from '../components/admin/expediteur';
@@ -16,7 +21,7 @@ import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
 
 export const routes = [
-    
+
     {
         name: 'register',
         path: '/register',
@@ -27,10 +32,21 @@ export const routes = [
         path: '/',
         component: Login
     },
+
     {
-        name: 'dashboard',
-        path: '/dashboard',
-        component: Dashboard
+        name: 'dashboard-admin',
+        path: '/dashboard-admin',
+        component: DashboardAdmin
+    },
+    {
+        name: 'dashboard-expediteur',
+        path: '/dashboard-expediteur',
+        component: DashboardExpediteur,
+    },
+    {
+        name: 'dashboard-livreur',
+        path: '/dashboard-livreur',
+        component: DashboardLivreur
     },
     {
         name: 'admins',
