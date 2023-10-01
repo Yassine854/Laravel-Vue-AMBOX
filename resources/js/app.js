@@ -1,7 +1,7 @@
 
 import {createApp} from 'vue';
 
-require('./bootstrap');
+// require('./bootstrap');
 
 
 import App from './App.vue';

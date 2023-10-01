@@ -56,3 +56,10 @@
 
 
 </script>
+
+<style>
+.modal.fade  {
+    text-align: left;
+    color:black;
+}
+</style>

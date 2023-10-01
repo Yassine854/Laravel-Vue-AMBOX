@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\ColiController;
+
 
 
  //***********Interface Admin**************//
@@ -31,6 +33,9 @@ Route::post('livreur/create', [UserController::class, 'createLivreur']);
 Route::put('livreur/update/{id}', [UserController::class, 'updateLivreur']);
 Route::post('livreur/disable/{id}', [UserController::class, 'disableLivreur']);
 
+//Colis
+
+Route::post('colis/create', [ColiController::class, 'createColis']);
 
 
 });
@@ -40,10 +45,14 @@ Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
-Route::group(['prefix' => 'posts','middleware' => 'auth:sanctum'], function() {
-    Route::get('/', [PostsController::class,'index']);
-    Route::post('add', [PostsController::class,'add']);
-    Route::post('update/{id}', [PostsController::class,'update']);
-    Route::get('edit/{id}', [PostsController::class,'edit']);
-    Route::delete('delete/{id}', [PostsController::class,'delete']);
-});
+
+
+
+
+// Route::group(['prefix' => 'posts','middleware' => 'auth:sanctum'], function() {
+//     Route::get('/', [PostsController::class,'index']);
+//     Route::post('add', [PostsController::class,'add']);
+//     Route::post('update/{id}', [PostsController::class,'update']);
+//     Route::get('edit/{id}', [PostsController::class,'edit']);
+//     Route::delete('delete/{id}', [PostsController::class,'delete']);
+// });

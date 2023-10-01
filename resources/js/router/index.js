@@ -7,6 +7,7 @@ import {
 import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
+
 import DashboardAdmin from '../components/admin/Dashboard';
 import DashboardExpediteur from '../components/expediteur/Dashboard';
 import DashboardLivreur from '../components/livreur/Dashboard';
@@ -14,11 +15,12 @@ import DashboardLivreur from '../components/livreur/Dashboard';
 import admins from '../components/admin/admin';
 import expediteurs from '../components/admin/expediteur';
 import livreurs from '../components/admin/livreur';
+import colis from '../components/admin/coli';
 
 
-import Posts from '../components/Posts';
-import EditPost from '../components/EditPost';
-import AddPost from '../components/AddPost';
+// import Posts from '../components/Posts';
+// import EditPost from '../components/EditPost';
+// import AddPost from '../components/AddPost';
 
 export const routes = [
 
@@ -64,20 +66,11 @@ export const routes = [
         component: livreurs
     },
     {
-        name: 'posts',
-        path: '/posts',
-        component: Posts
+        name: 'colis',
+        path: '/colis',
+        component: colis
     },
-    {
-        name: 'addpost',
-        path: '/posts/add',
-        component: AddPost
-    },
-    {
-        name: 'editpost',
-        path: '/posts/edit/:id',
-        component: EditPost
-    }
+   
 ];
 
 const router = createRouter({
