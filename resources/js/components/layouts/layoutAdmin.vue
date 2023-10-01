@@ -54,6 +54,17 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+        <!-- Heading -->
+        <div class="sidebar-heading">
+                Colis
+        </div>
+
+        <li class="nav-item" :class="{ active: $route.name === 'colis' }">
+          <a :href="$router.resolve({ name: 'colis' }).href" class="nav-link">
+            <i class="fa-solid fa-users"></i>
+            <span>Gestion des colis</span></a
+          >
+        </li>
 
        </ul>
     <!-- End of Sidebar -->
@@ -119,7 +130,7 @@
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                
+
                <slot></slot>
 
             </div>

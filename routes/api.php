@@ -34,8 +34,9 @@ Route::put('livreur/update/{id}', [UserController::class, 'updateLivreur']);
 Route::post('livreur/disable/{id}', [UserController::class, 'disableLivreur']);
 
 //Colis
-
+Route::get('colis/get_all_colis', [ColiController::class, 'get_all_colis']);
 Route::post('colis/create', [ColiController::class, 'createColis']);
+Route::put('colis/update/{id}', [ColiController::class, 'updateColis']);
 
 
 });

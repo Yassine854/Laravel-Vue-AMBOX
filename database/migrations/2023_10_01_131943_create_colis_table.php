@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string("gouvernorat");
             $table->string("delegation");
             $table->string("localite");
-            $table->string("commentaire");
+            $table->string("commentaire")->nullable();
             $table->boolean("livraison")->default(false);
 
             $table->timestamps();

@@ -85,7 +85,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="poid">Poids:</label>
+                    <label for="poid">Poids (en Kg):</label>
                     <input type="text" :class="['form-control', {'is-invalid': validationErrors.poid}]" id="poid" name="poid" v-model="poid">
                     <span class="invalid-feedback" v-for="(err, index) in validationErrors.poid" :key="index">{{ err }}<br></span>
                 </div>
@@ -198,7 +198,7 @@
     </div>
     <div class="col-md-6">
         <div class="form-group">
-            <label for="commentaire">Commentaire:</label>
+            <label for="commentaire">Commentaire (optionnel):</label>
             <textarea  :class="['form-control', {'is-invalid': validationErrors.commentaire}]" id="commentaire" name="commentaire" v-model="commentaire"></textarea>
             <span class="invalid-feedback" v-for="(err, index) in validationErrors.commentaire" :key="index">{{ err }}<br></span>
         </div>
@@ -214,7 +214,7 @@
 <br>
 <div class="form-group">
     <label for="livraison" style="color: black;">Livraison:</label>
-    <select :class="['form-control', {'is-invalid': validationErrors.livraison}]" id="livraison" name="livraison" v-model="livraison">
+    <select :class="['form-select', {'is-invalid': validationErrors.livraison}]" id="livraison" name="livraison" v-model="livraison">
         <option value="0">Non</option>
         <option value="1">Oui</option>
     </select>
@@ -248,13 +248,13 @@
             <!-----------------------------------------------Edit coli------------------------------------------>
 
             <div class="modal fade" id="editColi" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-dialog modal-dialog-centered modal-xl">
                 <div class="modal-content">
                   <div class="modal-header">
                     <div class="d-flex align-items-center">
                     <i class="fa-solid fa-pen fa-xl me-2"></i>
                     <h5 class="modal-title mb-0" id="editProductLabel">
-                        Modifier l'coli
+                        Modifier le colis
                     </h5>
                     </div>
 
@@ -267,47 +267,177 @@
                   </div>
                   <div class="modal-body">
 
-                    <form @submit.prevent="updateColi(coliEdit)">
-                        <div class="mb-3">
-                            <label
-                            class="small mb-1"
+                    <form @submit.prevent="updateColis(coliEdit)">
 
-                            for="name"
-                            style="float: left"
-                            >Nom</label
-                            >
-                            <input
-                            :class="['form-control', {'is-invalid': validationErrorsEdit.name}]"
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        Informations du colis
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div class="accordion-body">
 
-                            id="name"
-                            rows="4"
-                            placeholder="Entrer le nom"
-                            v-model="nameEdit"
+        <!-- Colis Fields -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="prix">Prix (en TND):</label>
+                    <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.prix}]" id="prix" name="prix" v-model="prixEdit">
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.prix" :key="index">{{ err }}<br></span>
+                </div>
+                <div class="form-group">
+                    <label for="Nb_pieces">Nombre de pièces:</label>
+                    <input type="number" :class="['form-control', {'is-invalid': validationErrorsEdit.Nb_pieces}]" id="Nb_pieces" name="Nb_pieces" min="1" v-model="Nb_piecesEdit">
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.Nb_pieces" :key="index">{{ err }}<br></span>
+                </div>
+                <div class="form-group">
+                    <label for="designation">Désignation:</label>
+                    <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.designation}]" id="designation" name="designation" v-model="designationEdit">
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.designation" :key="index">{{ err }}<br></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="poid">Poids (en Kg):</label>
+                    <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.poid}]" id="poid" name="poid" v-model="poidEdit">
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.poid" :key="index">{{ err }}<br></span>
+                </div>
+                <div class="form-group">
+                    <label for="echange">Échange:</label>
+                    <select :class="['form-select', {'is-invalid': validationErrorsEdit.echange}]" id="echange" name="echange" v-model="echangeEdit">
+                        <option value="1">Oui</option>
+                        <option value="0">Non</option>
+                    </select>
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.echange" :key="index">{{ err }}<br></span>
+                </div>
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.type}]" id="type" name="type" v-model="typeEdit">
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.type" :key="index">{{ err }}<br></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fragile">Fragile:</label>
+                    <select :class="['form-select', {'is-invalid': validationErrorsEdit.fragile}]" id="fragile" name="fragile" v-model="fragileEdit">
+                        <option value="1">Oui</option>
+                        <option value="0">Non</option>
+                    </select>
+                    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.fragile" :key="index">{{ err }}<br></span>
+                </div>
+            </div>
+        </div>
 
-                            >
-                            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.name" :key="index">{{ err }}<br></span>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+        Paramétres du client
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+      <div class="accordion-body">
 
-                        </div>
+        <div class="row">
+    <div class="col-md-6">
+        <!-- Client Fields -->
+        <div class="form-group">
+            <label for="tel">Téléphone:</label>
+            <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.tel}]" id="tel" name="tel" v-model="telEdit">
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.tel" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="nom">Nom:</label>
+            <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.nom}]" id="nom" name="nom" v-model="nomEdit">
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.nom" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+</div>
 
-                        <div class="mb-3">
-                            <label
-                            class="small mb-1"
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="address">Adresse:</label>
+            <textarea :class="['form-control', {'is-invalid': validationErrorsEdit.address}]" id="address" name="address" v-model="addressEdit"></textarea>
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.address" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="tel2">Téléphone 2 (optionnel):</label>
+            <input type="text" :class="['form-control', {'is-invalid': validationErrorsEdit.tel2}]" id="tel2" name="tel2" v-model="tel2Edit">
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.tel2" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+</div>
 
-                            for="email"
-                            style="float: left"
-                            >E-mail</label
-                            >
-                            <input
-                            :class="['form-control', {'is-invalid': validationErrorsEdit.email}]"
-                            id="email"
-                            rows="4"
-                            placeholder="Entrer l'e-mail"
-                            v-model="emailEdit"
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="gouvernorat">Gouvernorat:</label>
+        <select :class="['form-select', {'is-invalid': validationErrorsEdit.gouvernorat}]" v-model="gouvernoratEdit" @change="updateDelegationsEdit">
+            <option value="" selected hidden disabled>Sélectionner la gouvernorat</option>
+        <option v-for="(gov,index) in uniqueGovernorats" :key="index">{{ gov }}</option>
+    </select>
+    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.gouvernorat" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="delegation">Délégation:</label>
+            <select :class="['form-select', {'is-invalid': validationErrorsEdit.delegation}]" v-model="delegationEdit" @change="updateLocaliteEdit">
+                <option value="" selected hidden disabled>Sélectionner la délégation</option>
+                <option v-for="(deleg, index) in listeDelegations" :key="index">{{ deleg }}</option>
+            </select>
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.delegation" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+</div>
 
-                            >
-                            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.email" :key="index">{{ err }}<br></span>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="localite">Localité:</label>
+            <select :class="['form-select', {'is-invalid': validationErrorsEdit.localite}]" v-model="localiteEdit">
+                <option value="" selected hidden disabled>Sélectionner la localité</option>
+                <option v-for="(cite, index) in listeLocalite" :key="index">{{ cite }}</option>
+            </select>
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.localite" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="commentaire">Commentaire (optionnel):</label>
+            <textarea  :class="['form-control', {'is-invalid': validationErrorsEdit.commentaire}]" id="commentaire" name="commentaire" v-model="commentaireEdit"></textarea>
+            <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.commentaire" :key="index">{{ err }}<br></span>
+        </div>
+    </div>
+</div>
 
-                        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<br>
+<div class="form-group">
+    <label for="livraison" style="color: black;">Livraison:</label>
+    <select :class="['form-select', {'is-invalid': validationErrorsEdit.livraison}]" id="livraison" name="livraison" v-model="livraisonEdit">
+        <option value="0">Non</option>
+        <option value="1">Oui</option>
+    </select>
+    <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.livraison" :key="index">{{ err }}<br></span>
+</div>
+
+
+
                         <div class="modal-footer">
                         <button
                           type="button"
@@ -342,12 +472,12 @@
       </div>
 
       <div class="table-responsive">
-  <!-- <table class="table table-bordered">
+  <table class="table table-bordered">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Prix</th>
-        <th scope="col">Nombre de pièces</th>
+        <th scope="col">NB pièces</th>
         <th scope="col">Désignation</th>
         <th scope="col">Poids</th>
         <th scope="col">Échange</th>
@@ -356,7 +486,7 @@
         <th scope="col">Téléphone</th>
         <th scope="col">Nom</th>
         <th scope="col">Adresse</th>
-        <th scope="col">Téléphone 2</th>
+        <th scope="col">Téléphone2</th>
         <th scope="col">Gouvernorat</th>
         <th scope="col">Délégation</th>
         <th scope="col">Localité</th>
@@ -365,14 +495,14 @@
         <th scope="col">Actions</th>
       </tr>
     </thead>
-    <template v-if="colis.length > 0">
+    <template v-if="displayedColisSlice.length > 0">
       <tbody>
-        <tr v-for="coli in colis" :key="coli.id">
+        <tr v-for="coli in displayedColisSlice" :key="coli.id">
           <th>{{ coli.id }}</th>
-          <td>{{ coli.prix }}</td>
+          <td>{{ coli.prix }} Dt</td>
           <td>{{ coli.Nb_pieces }}</td>
           <td>{{ coli.designation }}</td>
-          <td>{{ coli.poid }}</td>
+          <td>{{ coli.poid }} Kg</td>
           <td>{{ coli.echange ? 'Oui' : 'Non' }}</td>
           <td>{{ coli.type }}</td>
           <td>{{ coli.fragile ? 'Oui' : 'Non' }}</td>
@@ -386,11 +516,8 @@
           <td>{{ coli.commentaire }}</td>
           <td>{{ coli.livraison ? 'Oui' : 'Non' }}</td>
           <td>
-            <a @click="openEditModal(coli)" class="me-4 text-warning">
+            <a id="crudBtn" @click="openEditModal(coli)" class="me-4 text-warning">
               <i class="fa-solid fa-pen-to-square"></i>
-            </a>
-            <a @click="disableColi(coli)" class="text-danger" v-if="!coli.disabled">
-              <i class="fa-solid fa-user-lock"></i>
             </a>
           </td>
         </tr>
@@ -401,7 +528,7 @@
         <td colspan="18">Pas de colis</td>
       </tr>
     </tbody>
-  </table> -->
+  </table>
 </div>
 
         </div>
@@ -502,8 +629,24 @@ import tunisia from "../../../../storage/app/public/json/zip-postcodes.json";
 
         //edit
         coliEdit:[],
-        nameEdit: "",
-        emailEdit: "",
+        //colis
+        prix:"",
+            Nb_piecesEdit:"",
+            designationEdit:"",
+            poidEdit:"",
+            echangeEdit:"",
+            typeEdit:"",
+            fragileEdit:"",
+            //client
+            telEdit:"",
+            nomEdit:"",
+            addressEdit:"",
+            tel2Edit:"",
+            gouvernoratEdit:"",
+            delegationEdit:"",
+            localiteEdit:"",
+            commentaireEdit:"",
+            livraisonEdit:"",
 
       };
     },
@@ -511,16 +654,27 @@ import tunisia from "../../../../storage/app/public/json/zip-postcodes.json";
         this.get_all_colis();
 
     },
-
+    watch: {
+    gouvernoratEdit(newGouvernorat, oldGouvernorat) {
+      if (newGouvernorat !== oldGouvernorat) {
+        this.updateDelegationsEdit();
+      }
+    },
+    delegationEdit(newDelegation, oldDelegation){
+        if (newDelegation !== oldDelegation) {
+        this.updateLocaliteEdit();
+      }
+    }
+  },
     computed: {
         displayedColis() {
         const searchLower = typeof this.search === 'string' ? this.search.toLowerCase() : '';
 
         return this.colis.filter(coli => {
-            const name = (coli.name || '').toLowerCase();
+            const nom = (coli.nom || '').toLowerCase();
 
             // Perform case-insensitive search
-            return name.includes(searchLower);
+            return nom.includes(searchLower);
         });
     },
 
@@ -569,6 +723,20 @@ updateLocalite() {
         .filter(item => item.Deleg === this.delegation)
         .map(item => item.Cite))];
     console.log(this.listeLocalite);
+},
+
+updateDelegationsEdit() {
+    this.listeDelegations=[];
+    this.listeLocalite=[];
+    this.listeDelegations = [...new Set(tunisia
+        .filter(item => item.Gov === this.gouvernoratEdit)
+        .map(item => item.Deleg))];
+},
+
+updateLocaliteEdit() {
+    this.listeLocalite = [...new Set(tunisia
+        .filter(item => item.Deleg === this.delegationEdit)
+        .map(item => item.Cite))];
 },
 
 
@@ -654,15 +822,44 @@ updateLocalite() {
     $("#editColi").modal("show");
     this.validationErrorsEdit={}
     this.coliEdit=coli;
-    this.nameEdit = coli.name;
-    this.emailEdit=coli.email;
+    this.prixEdit = coli.prix;
+    this.Nb_piecesEdit = coli.Nb_pieces;
+    this.designationEdit = coli.designation;
+    this.poidEdit = coli.poid;
+    this.echangeEdit =coli.echange;
+    this.typeEdit = coli.type;
+    this.fragileEdit = coli.fragile;
+    this.telEdit = coli.tel;
+    this.nomEdit = coli.nom;
+    this.addressEdit = coli.address;
+    this.tel2Edit = coli.tel2;
+    this.gouvernoratEdit = coli.gouvernorat;
+    this.delegationEdit = coli.delegation;
+    this.localiteEdit = coli.localite;
+    this.commentaireEdit = coli.commentaire;
+    this.livraisonEdit = coli.livraison;
+
     },
 
-  async updateColi(coli) {
+  async updateColis(coli) {
   try {
-    const response = await axios.put(`/api/coli/update/${coli.id}`, {
-      name: this.nameEdit,
-      email: this.emailEdit,
+    const response = await axios.put(`/api/colis/update/${coli.id}`, {
+        prix: this.prixEdit,
+        Nb_pieces: this.Nb_piecesEdit,
+        designation: this.designationEdit,
+        poid: this.poidEdit,
+        echange: this.echangeEdit,
+        type: this.typeEdit,
+        fragile: this.fragileEdit,
+        tel: this.telEdit,
+        nom: this.nomEdit,
+        address: this.addressEdit,
+        tel2: this.tel2Edit,
+        gouvernorat: this.gouvernoratEdit,
+        delegation: this.delegationEdit,
+        localite: this.localiteEdit,
+        commentaire: this.commentaireEdit,
+        livraison: this.livraisonEdit
     });
 
     if (response.status === 200) {
@@ -678,16 +875,30 @@ updateLocalite() {
         });
       toast.fire({
         icon: "success",
-        title: "Coli modifié avec succés !",
+        title: "Colis modifié avec succés !",
       });
 
       $("#editColi .btn-close").click();
-      this.get_all_colis();
-      this.coliEdit=[];
-      this.nameEdit = "";
-      this.emailEdit = "";
+        this.get_all_colis();
+        this.coliEdit=[];
+        this.prixEdit = "";
+        this.Nb_piecesEdit = "";
+        this.designationEdit = "";
+        this.poidEdit = "";
+        this.echangeEdit = "";
+        this.typeEdit = "";
+        this.fragileEdit = "";
+        this.telEdit = "";
+        this.nomEdit = "";
+        this.addressEdit = "";
+        this.tel2Edit = "";
+        this.gouvernoratEdit = "";
+        this.delegationEdit = "";
+        this.localiteEdit = "";
+        this.commentaireEdit = "";
+        this.livraisonEdit = "";
     } else {
-      this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour de l'coli.";
+      this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour du colis.";
     }
   } catch (error) {
     if (error.response && error.response.status === 400) {

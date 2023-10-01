@@ -30,25 +30,13 @@
 
         <!-- Heading -->
         <div class="sidebar-heading">
-                Utilisateurs
+                Colis
         </div>
         <!-- Nav Item - Admins -->
-        <li class="nav-item" :class="{ active: $route.name === 'admins' }">
-          <a :href="$router.resolve({ name: 'admins' }).href" class="nav-link">
+        <li class="nav-item" :class="{ active: $route.name === 'colis' }">
+          <a :href="$router.resolve({ name: 'colis' }).href" class="nav-link">
             <i class="fa-solid fa-users"></i>
-            <span>Admins</span></a
-          >
-        </li>
-        <li class="nav-item" :class="{ active: $route.name === 'expediteurs' }">
-          <a :href="$router.resolve({ name: 'expediteurs' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            <span>Expéditeurs</span></a
-          >
-        </li>
-        <li class="nav-item" :class="{ active: $route.name === 'livreurs' }">
-          <a :href="$router.resolve({ name: 'livreurs' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            <span>Livreurs</span></a
+            <span>Gestion des colis</span></a
           >
         </li>
         <!-- Divider -->

@@ -364,7 +364,9 @@
           </tbody>
         </template>
           <tbody v-else>
-            <p>Pas de livreurs</p>
+            <tr>
+            <td colspan="18">Pas de livreurs</td>
+        </tr>
           </tbody>
         </table>
         </div>

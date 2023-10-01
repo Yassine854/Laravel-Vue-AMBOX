@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import layout_expediteur from "../layouts/layoutLivreur.vue";
+import layout_expediteur from "../layouts/layoutExpediteur.vue";
 import {
     checkLoginExpediteur,
   } from "../../auth";
