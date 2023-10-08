@@ -19,10 +19,17 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
+        <li
+          class="nav-item"
+          :class="{ active: $route.name === 'dashboard-expediteur' || !$route.name }"
+        >
+          <a
+            :href="$router.resolve({ name: 'dashboard-expediteur' }).href"
+            class="nav-link"
+          >
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
         </li>
 
         <!-- Divider -->
@@ -33,8 +40,8 @@
                 Colis
         </div>
         <!-- Nav Item - Admins -->
-        <li class="nav-item" :class="{ active: $route.name === 'colis' }">
-          <a :href="$router.resolve({ name: 'colis' }).href" class="nav-link">
+        <li class="nav-item" :class="{ active: $route.name === 'colis_expediteur' }">
+          <a :href="$router.resolve({ name: 'colis_expediteur' }).href" class="nav-link">
             <i class="fa-solid fa-users"></i>
             <span>Gestion des colis</span></a
           >

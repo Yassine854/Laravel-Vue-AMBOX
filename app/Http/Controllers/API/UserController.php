@@ -228,7 +228,10 @@ public function disableAdmin($id)
                 'max:255',
                 Rule::unique('users'),
             ],
+            'entreprise' => 'required|string|max:255',
             'city'=> 'required',
+            'prix_livraison'=> 'required|numeric',
+            'prix_retour'=> 'required|numeric',
             'phone' => [
                 'required',
                 'numeric',
@@ -242,6 +245,7 @@ public function disableAdmin($id)
         $messages = [
             'required' => 'Ce champ est requis.',
             'string' => 'Ce champ doit être une chaîne de caractères.',
+            'numeric' => 'Ce champ doit être un nombre.',
             'max' => 'Ce champ ne doit pas dépasser :max caractères.',
             'email' => 'L\'adresse email n\'est pas valide.',
             'email.unique' => 'Cet email est déjà utilisé.',
@@ -263,7 +267,10 @@ public function disableAdmin($id)
             $user = new User();
             $user->name = $request->name;
             $user->email = $request->email;
+            $user->entreprise = $request->entreprise;
             $user->city=$request->city;
+            $user->prix_livraison = $request->prix_livraison;
+            $user->prix_retour = $request->prix_retour;
             $user->phone=$request->phone;
             $user->address=$request->address;
             $user->password = Hash::make($request->password);
@@ -298,7 +305,10 @@ public function disableAdmin($id)
             'max:255',
             Rule::unique('users')->ignore($id),
         ],
+        'entreprise' => 'required|string|max:255',
         'city'=> 'required',
+        'prix_livraison'=> 'required|numeric',
+        'prix_retour'=> 'required|numeric',
         'phone' => [
             'required',
             'numeric',
@@ -311,6 +321,7 @@ public function disableAdmin($id)
     $messages = [
         'required' => 'Ce champ est requis.',
         'string' => 'Ce champ doit être une chaîne de caractères.',
+        'numeric' => 'Ce champ doit être un nombre.',
         'max' => 'Ce champ ne doit pas dépasser :max caractères.',
         'email' => 'L\'adresse email n\'est pas valide.',
         'email.unique' => 'Cet email est déjà utilisé.',
@@ -336,7 +347,10 @@ public function disableAdmin($id)
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->entreprise = $request->entreprise;
         $user->city=$request->city;
+        $user->prix_livraison = $request->prix_livraison;
+        $user->prix_retour = $request->prix_retour;
         $user->phone=$request->phone;
         $user->address=$request->address;
         $user->update();

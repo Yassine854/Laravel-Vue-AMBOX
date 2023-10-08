@@ -116,6 +116,17 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="entreprise" style="float: left">Nom d'entreprise</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.entreprise}]"
+                            id="entreprise"
+                            placeholder="Entrer le nom d'entreprise"
+                            v-model="entreprise"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.entreprise" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                         <label class="small mb-1" for="city" style="float: left">Ville</label>
                         <select
                             id="city"
@@ -133,9 +144,30 @@
 
                         </div>
 
+                        <div class="mb-3">
+                        <label class="small mb-1" for="prix_livraison" style="float: left">Prix de livraison (en TND)</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.prix_livraison}]"
+                            id="prix_livraison"
+                            placeholder="Entrer le prix de livraison"
+                            v-model="prix_livraison"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.prix_livraison" :key="index">{{ err }}<br></span>
+                        </div>
 
                         <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <label class="small mb-1" for="prix_retour" style="float: left">Prix de retour (en TND)</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.prix_livraison}]"
+                            id="prix_retour"
+                            placeholder="Entrer le prix de retour"
+                            v-model="prix_retour"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.prix_livraison" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
                         <input
                             :class="['form-control', {'is-invalid': validationErrors.phone}]"
                             id="phone"
@@ -248,6 +280,17 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="entreprise" style="float: left">Nom d'entreprise</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.entreprise}]"
+                            id="entreprise"
+                            placeholder="Entrer le nom d'entreprise"
+                            v-model="entrepriseEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.entreprise" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                         <label class="small mb-1" for="city" style="float: left">Ville</label>
                         <select
                             id="city"
@@ -265,9 +308,31 @@
 
                         </div>
 
+                        <div class="mb-3">
+                        <label class="small mb-1" for="prix_livraison" style="float: left">Prix de livraison (en TND)</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.prix_livraison}]"
+                            id="prix_livraison"
+                            placeholder="Entrer le prix de livraison"
+                            v-model="prix_livraisonEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.prix_livraison" :key="index">{{ err }}<br></span>
+                        </div>
 
                         <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <label class="small mb-1" for="prix_retour" style="float: left">Prix de retour (en TND)</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.prix_retour}]"
+                            id="prix_retour"
+                            placeholder="Entrer le prix de retour"
+                            v-model="prix_retourEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.prix_retour" :key="index">{{ err }}<br></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
                         <input
                             :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
                             id="phone"
@@ -406,7 +471,7 @@
 <script setup>
 import layout_admin from "../layouts/layoutAdmin.vue";
   import {
-    checkLoginAdmin,
+    checkLoginAdmin,checkDisabledAccount
   } from "../../auth";
   import { onMounted, ref, computed } from "vue";
   import { useRouter } from "vue-router";
@@ -422,7 +487,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
       name: "expediteurs",
     //check auth
     beforeRouteEnter(to, from, next) {
-      if (checkLoginAdmin()) {
+      if (checkLoginAdmin() && !checkDisabledAccount()) {
         next();
       } else {
         next("/");
@@ -452,7 +517,10 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         //create
         name: "",
         email: "",
+        entreprise: "",
         city:"",
+        prix_livraison: "",
+        prix_retour: "",
         phone:"",
         address:"",
         password: "",
@@ -460,7 +528,10 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         //edit
         expediteurEdit:[],
         nameEdit: "",
+        entrepriseEdit:"",
         cityEdit:"",
+        prix_livraisonEdit: "",
+        prix_retourEdit: "",
         phoneEdit:"",
         addressEdit:"",
         emailEdit: "",
@@ -531,14 +602,20 @@ import layout_admin from "../layouts/layoutAdmin.vue";
           await axios.post(`/api/expediteur/create`, {
             name: this.name,
             email: this.email,
+            entreprise:this.entreprise,
             city:this.city,
+            prix_livraison:this.prix_livraison,
+            prix_retour:this.prix_retour,
             phone:this.phone,
             address:this.address,
             password: this.password,
           });
           this.name = "";
           this.email = "";
+          this.entreprise="";
           this.city="";
+          this.prix_livraison="",
+          this.prix_retour="",
           this.phone="";
           this.address="";
           this.password = "";
@@ -576,7 +653,10 @@ import layout_admin from "../layouts/layoutAdmin.vue";
     this.expediteurEdit=expediteur;
     this.nameEdit = expediteur.name;
     this.emailEdit=expediteur.email;
+    this.entrepriseEdit=expediteur.entreprise;
     this.cityEdit=expediteur.city;
+    this.prix_livraisonEdit=expediteur.prix_livraison;
+    this.prix_retourEdit=expediteur.prix_retour;
     this.phoneEdit=expediteur.phone;
     this.addressEdit=expediteur.address;
     },
@@ -586,7 +666,10 @@ import layout_admin from "../layouts/layoutAdmin.vue";
     const response = await axios.put(`/api/expediteur/update/${expediteur.id}`, {
         name: this.nameEdit,
         email: this.emailEdit,
+        entreprise:this.entrepriseEdit,
         city:this.cityEdit,
+        prix_livraison:this.prix_livraisonEdit,
+        prix_retour:this.prix_retourEdit,
         phone:this.phoneEdit,
         address:this.addressEdit,
     });
@@ -609,12 +692,15 @@ import layout_admin from "../layouts/layoutAdmin.vue";
 
       $("#editexpediteur .btn-close").click();
       this.get_all_expediteurs();
-      this.expediteurEdit=[];
-      this.nameEdit = "";
-      this.emailEdit = "";
-      this.cityEdit="";
-      this.phoneEdit="";
-      this.addressEdit="";
+        this.expediteurEdit=[];
+        this.nameEdit = "";
+        this.emailEdit = "";
+        this.entrepriseEdit="";
+        this.cityEdit="";
+        this.prix_livraisonEdit="",
+        this.prix_retourEdit="",
+        this.phoneEdit="";
+        this.addressEdit="";
     } else {
       this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour de l'expediteur.";
     }

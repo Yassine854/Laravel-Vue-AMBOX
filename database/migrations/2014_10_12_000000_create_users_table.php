@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->integer('role')->nullable();
             $table->boolean('disabled')->default(false);
+            $table->string('entreprise')->nullable();
+            $table->double('prix_livraison')->nullable();
+            $table->double('prix_retour')->nullable();
             $table->string('city')->nullable();
             $table->integer('phone')->nullable();
             $table->string('address')->nullable();

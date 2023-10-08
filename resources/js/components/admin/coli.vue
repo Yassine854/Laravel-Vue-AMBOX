@@ -568,7 +568,7 @@
 import layout_admin from "../layouts/layoutAdmin.vue";
 import tunisia from "../../../../storage/app/public/json/zip-postcodes.json";
   import {
-    checkLoginAdmin,
+    checkLoginAdmin,checkDisabledAccount
   } from "../../auth";
   import { onMounted, ref, computed } from "vue";
   import { useRouter } from "vue-router";
@@ -581,10 +581,10 @@ import tunisia from "../../../../storage/app/public/json/zip-postcodes.json";
 
     <script>
   export default {
-      name: "colis",
+      name: "colis_admin",
     //check auth
     beforeRouteEnter(to, from, next) {
-      if (checkLoginAdmin()) {
+      if (checkLoginAdmin() && !checkDisabledAccount()) {
         next();
       } else {
         next("/");

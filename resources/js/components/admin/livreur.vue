@@ -135,7 +135,7 @@
 
 
                         <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
                         <input
                             :class="['form-control', {'is-invalid': validationErrors.phone}]"
                             id="phone"
@@ -266,7 +266,7 @@
 
 
                         <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Phone</label>
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
                         <input
                             :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
                             id="phone"
@@ -406,7 +406,7 @@
 <script setup>
 import layout_admin from "../layouts/layoutAdmin.vue";
   import {
-    checkLoginAdmin,
+    checkLoginAdmin,checkDisabledAccount
   } from "../../auth";
   import { onMounted, ref, computed } from "vue";
   import { useRouter } from "vue-router";
@@ -422,7 +422,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
       name: "livreurs",
     //check auth
     beforeRouteEnter(to, from, next) {
-      if (checkLoginAdmin()) {
+      if (checkLoginAdmin() && !checkDisabledAccount()) {
         next();
       } else {
         next("/");

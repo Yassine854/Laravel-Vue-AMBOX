@@ -4,7 +4,7 @@ import {
     checkUserRole
   } from "../auth";
 
-import Home from '../pages/Home';
+// import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 
@@ -15,12 +15,9 @@ import DashboardLivreur from '../components/livreur/Dashboard';
 import admins from '../components/admin/admin';
 import expediteurs from '../components/admin/expediteur';
 import livreurs from '../components/admin/livreur';
-import colis from '../components/admin/coli';
+import colisAdmin from '../components/admin/coli';
+import colisExpediteur from '../components/expediteur/coli';
 
-
-// import Posts from '../components/Posts';
-// import EditPost from '../components/EditPost';
-// import AddPost from '../components/AddPost';
 
 export const routes = [
 
@@ -66,11 +63,16 @@ export const routes = [
         component: livreurs
     },
     {
-        name: 'colis',
-        path: '/colis',
-        component: colis
+        name: 'colis_admin',
+        path: '/admin/colis',
+        component: colisAdmin
     },
-   
+    {
+        name: 'colis_expediteur',
+        path: '/expediteur/colis',
+        component: colisExpediteur
+    },
+
 ];
 
 const router = createRouter({
