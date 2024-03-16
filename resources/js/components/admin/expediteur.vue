@@ -1,7 +1,7 @@
 <template>
     <layout_admin ref="table">
       <div
-        class="container shadow p-3"
+        class=" shadow p-3"
         style="background-color: white; position: relative"
       >
         <div class="row">
@@ -75,12 +75,23 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phone"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                             <label
                             class="small mb-1"
 
                             for="email"
                             style="float: left"
-                            >E-mail</label
+                            >E-mail (Optionnel)</label
                             >
                             <input
                             :class="['form-control', {'is-invalid': validationErrors.email}]"
@@ -126,23 +137,143 @@
                         <span class="invalid-feedback" v-for="(err, index) in validationErrors.entreprise" :key="index">{{ err }}<br></span>
                         </div>
 
-                        <div class="mb-3">
-                        <label class="small mb-1" for="city" style="float: left">Ville</label>
-                        <select
-                            id="city"
-                            :class="['form-select', {'is-invalid': validationErrors.city}]"
-                            v-model="city"
-                        >
-                            <option value="" disabled>Sélectionner la ville</option>
-                            <option
-                            v-for="city in cities"
-                            :key="city"
-                            :value="city"
-                            >{{ city }}</option>
-                        </select>
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.city" :key="index">{{ err }}<br></span>
 
-                        </div>
+
+
+                        <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="gouvernorat">Gouvernorat:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid':
+                                          validationErrors.gouvernorat,
+                                      },
+                                    ]"
+                                    v-model="gouvernorat"
+                                    @change="updateDelegations"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la gouvernorat
+                                    </option>
+                                    <option
+                                      v-for="(gov, index) in uniqueGovernorats"
+                                      :key="index"
+                                    >
+                                      {{ gov }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrors.gouvernorat"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="delegation">Délégation:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid':
+                                          validationErrors.delegation,
+                                      },
+                                    ]"
+                                    v-model="delegation"
+                                    @change="updateLocalite"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la délégation
+                                    </option>
+                                    <option
+                                      v-for="(deleg, index) in listeDelegations"
+                                      :key="index"
+                                    >
+                                      {{ deleg }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrors.delegation"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="localite">Localité:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid': validationErrors.localite,
+                                      },
+                                    ]"
+                                    v-model="localite"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la localité
+                                    </option>
+                                    <option
+                                      v-for="(cite, index) in listeLocalite"
+                                      :key="index"
+                                    >
+                                      {{ cite }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrors.localite"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="address">Adresse:</label>
+                                  <textarea
+                                    rows="1"
+                                    :class="[
+                                      'form-control',
+                                      {
+                                        'is-invalid': validationErrors.address,
+                                      },
+                                    ]"
+                                    id="address"
+                                    name="address"
+                                    v-model="address"
+                                    placeholder="Entrer l'adresse d'expéditeur"
+                                  ></textarea>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrors.address"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                            </div>
+                              </div>
+
+
+
 
                         <div class="mb-3">
                         <label class="small mb-1" for="prix_livraison" style="float: left">Prix de livraison (en TND)</label>
@@ -158,36 +289,12 @@
                         <div class="mb-3">
                         <label class="small mb-1" for="prix_retour" style="float: left">Prix de retour (en TND)</label>
                         <input
-                            :class="['form-control', {'is-invalid': validationErrors.prix_livraison}]"
+                            :class="['form-control', {'is-invalid': validationErrors.prix_retour}]"
                             id="prix_retour"
                             placeholder="Entrer le prix de retour"
                             v-model="prix_retour"
                         >
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.prix_livraison" :key="index">{{ err }}<br></span>
-                        </div>
-
-                        <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
-                        <input
-                            :class="['form-control', {'is-invalid': validationErrors.phone}]"
-                            id="phone"
-                            placeholder="Entrer le numéro de téléphone"
-                            v-model="phone"
-                        >
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.phone" :key="index">{{ err }}<br></span>
-                        </div>
-
-
-                        <div class="mb-3">
-                        <label class="small mb-1" for="address" style="float: left">Address</label>
-                        <textarea
-                            :class="['form-control', {'is-invalid': validationErrors.address}]"
-                            id="address"
-                            rows="4"
-                            placeholder="Entrer l'adresse"
-                            v-model="address"
-                        ></textarea>
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.address" :key="index">{{ err }}<br></span>
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.prix_retour" :key="index">{{ err }}<br></span>
                         </div>
 
 
@@ -260,12 +367,23 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phoneEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                             <label
                             class="small mb-1"
 
                             for="email"
                             style="float: left"
-                            >E-mail</label
+                            >E-mail (Optionnel)</label
                             >
                             <input
                             :class="['form-control', {'is-invalid': validationErrorsEdit.email}]"
@@ -290,23 +408,139 @@
                         <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.entreprise" :key="index">{{ err }}<br></span>
                         </div>
 
-                        <div class="mb-3">
-                        <label class="small mb-1" for="city" style="float: left">Ville</label>
-                        <select
-                            id="city"
-                            :class="['form-select', {'is-invalid': validationErrorsEdit.city}]"
-                            v-model="cityEdit"
-                        >
-                            <option value="" disabled>Sélectionner la ville</option>
-                            <option
-                            v-for="city in cities"
-                            :key="city"
-                            :value="city"
-                            >{{ city }}</option>
-                        </select>
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.city" :key="index">{{ err }}<br></span>
 
-                        </div>
+                        <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="gouvernorat">Gouvernorat:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid':
+                                          validationErrorsEdit.gouvernorat,
+                                      },
+                                    ]"
+                                    v-model="gouvernoratEdit"
+                                    @change="updateDelegationsEdit"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la gouvernorat
+                                    </option>
+                                    <option
+                                      v-for="(gov, index) in uniqueGovernorats"
+                                      :key="index"
+                                    >
+                                      {{ gov }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrorsEdit.gouvernorat"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="delegation">Délégation:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid':
+                                        validationErrorsEdit.delegation,
+                                      },
+                                    ]"
+                                    v-model="delegationEdit"
+                                    @change="updateLocaliteEdit"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la délégation
+                                    </option>
+                                    <option
+                                      v-for="(deleg, index) in listeDelegations"
+                                      :key="index"
+                                    >
+                                      {{ deleg }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrorsEdit.delegation"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="localite">Localité:</label>
+                                  <select
+                                    :class="[
+                                      'form-select',
+                                      {
+                                        'is-invalid': validationErrorsEdit.localite,
+                                      },
+                                    ]"
+                                    v-model="localiteEdit"
+                                  >
+                                    <option value="" selected hidden disabled>
+                                      Sélectionner la localité
+                                    </option>
+                                    <option
+                                      v-for="(cite, index) in listeLocalite"
+                                      :key="index"
+                                    >
+                                      {{ cite }}
+                                    </option>
+                                  </select>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrorsEdit.localite"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                            </div>
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="address">Adresse:</label>
+                                  <textarea
+                                    rows="1"
+                                    :class="[
+                                      'form-control',
+                                      {
+                                        'is-invalid': validationErrorsEdit.address,
+                                      },
+                                    ]"
+                                    id="address"
+                                    name="address"
+                                    v-model="addressEdit"
+                                    placeholder="Entrer l'adresse d'expéditeur"
+                                  ></textarea>
+                                  <span
+                                    class="invalid-feedback"
+                                    v-for="(
+                                      err, index
+                                    ) in validationErrorsEdit.address"
+                                    :key="index"
+                                    >{{ err }}<br
+                                  /></span>
+                                </div>
+                            </div>
+                              </div>
+
 
                         <div class="mb-3">
                         <label class="small mb-1" for="prix_livraison" style="float: left">Prix de livraison (en TND)</label>
@@ -330,30 +564,6 @@
                         <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.prix_retour" :key="index">{{ err }}<br></span>
                         </div>
 
-
-                        <div class="mb-3">
-                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
-                        <input
-                            :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
-                            id="phone"
-                            placeholder="Entrer le numéro de téléphone"
-                            v-model="phoneEdit"
-                        >
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.phone" :key="index">{{ err }}<br></span>
-                        </div>
-
-
-                        <div class="mb-3">
-                        <label class="small mb-1" for="address" style="float: left">Address</label>
-                        <textarea
-                            :class="['form-control', {'is-invalid': validationErrorsEdit.address}]"
-                            id="address"
-                            rows="4"
-                            placeholder="Entrer l'adresse"
-                            v-model="addressEdit"
-                        ></textarea>
-                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.address" :key="index">{{ err }}<br></span>
-                        </div>
 
                         <div class="modal-footer">
                         <button
@@ -384,7 +594,7 @@
 
         <div class="card mb-4">
           <div class="card-header d-flex align-items-center">
-            <i class="fa-solid fa-ticket me-2"></i>
+            <i class="fa-solid fa-users me-2"></i>
           <h5 class="mb-0">Liste des expediteurs</h5>
       </div>
 
@@ -394,6 +604,7 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nom</th>
+              <th scope="col">Téléphone</th>
               <th scope="col">E-mail</th>
               <th scope="col">État</th>
               <th scope="col">Actions</th>
@@ -404,6 +615,7 @@
             <tr>
               <th >{{ expediteur.id }}</th>
               <td >{{ expediteur.name }}</td>
+              <td >{{ expediteur.phone }}</td>
               <td  scope="row">{{ expediteur.email }}</td>
               <td>
                 <div v-if="expediteur.disabled==false">
@@ -414,16 +626,28 @@
                 </div>
             </td>
               <td >
-                <a
-                  id="crudBtn"
-                  @click="openEditModal(expediteur)"
-                  class="me-4 text-warning"
-                >
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <a id="crudBtn" @click="disableExpediteur(expediteur)" class="text-danger" v-if="!expediteur.disabled">
-                    <i class="fa-solid fa-user-lock"></i>
-                </a>
+                <a id="crudBtn" @click="openEditModal(expediteur)" class="btn btn-warning m-2"
+                      ><i class="fa-solid fa-pen-to-square"></i>
+                      <span class="textHover">Modifier</span>
+                      </a
+
+                    >
+
+                    <a  id="crudBtn" @click="disableExpediteur(expediteur)" class="btn btn-danger m-2" v-if="!expediteur.disabled"
+                      ><i class="fa-solid fa-user-lock"></i>
+                      <span class="textHover">Désactiver</span>
+                      </a
+
+                    >
+
+                    <a  id="crudBtn" @click="enableExpediteur(expediteur)" class="btn btn-success m-2" v-if="expediteur.disabled"
+                      ><i class="fa-solid fa-unlock"></i>
+                      <span class="textHover">Activer</span>
+                      </a
+
+                    >
+
+
               </td>
             </tr>
           </tbody>
@@ -477,6 +701,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
   import { useRouter } from "vue-router";
   import Swal from "sweetalert2";
   import axios from "axios";
+  import tunisia from "../../../../storage/app/public/json/zip-postcodes.json";
   window.Swal = Swal;
 
   </script>
@@ -503,37 +728,36 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         search:[],
         currentPage : 1,
         itemsPerPage : 10,
-        //Cities data
-        cities: [
-      'Tunis', 'Ariana', 'Ben Arous', 'Manouba', 'Nabeul', 'Zaghouan', 'Bizerte',
-      'Béja', 'Jendouba', 'Le Kef', 'Siliana', 'Sousse', 'Monastir', 'Mahdia',
-      'Sfax', 'Kairouan', 'Kasserine', 'Sidi Bouzid', 'Gabès', 'Médenine',
-      'Tataouine', 'Gafsa', 'Tozeur', 'Kébili'
-    ],
 
         //get
         expediteurs:[],
 
         //create
+        listeDelegations: [],
+        listeLocalite: [],
         name: "",
         email: "",
         entreprise: "",
-        city:"",
+        gouvernorat: "",
+        delegation: "",
+        localite: "",
+        address: "",
         prix_livraison: "",
         prix_retour: "",
         phone:"",
-        address:"",
         password: "",
 
         //edit
         expediteurEdit:[],
         nameEdit: "",
         entrepriseEdit:"",
-        cityEdit:"",
+        gouvernoratEdit: "",
+        delegationEdit: "",
+        localiteEdit: "",
+        addressEdit: "",
         prix_livraisonEdit: "",
         prix_retourEdit: "",
         phoneEdit:"",
-        addressEdit:"",
         emailEdit: "",
 
       };
@@ -542,8 +766,24 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         this.get_all_expediteurs();
 
     },
-
+    watch: {
+    gouvernoratEdit(newGouvernorat, oldGouvernorat) {
+      if (newGouvernorat !== oldGouvernorat) {
+        this.updateDelegationsEdit();
+      }
+    },
+    delegationEdit(newDelegation, oldDelegation) {
+      if (newDelegation !== oldDelegation) {
+        this.updateLocaliteEdit();
+      }
+    },
+  },
     computed: {
+
+        uniqueGovernorats() {
+      return [...new Set(tunisia.map((item) => item.Gov))];
+    },
+
         displayedexpediteurs() {
         const searchLower = typeof this.search === 'string' ? this.search.toLowerCase() : '';
 
@@ -584,6 +824,52 @@ import layout_admin from "../layouts/layoutAdmin.vue";
     },
 
 
+    updateDelegations() {
+      this.listeDelegations = [];
+      this.listeLocalite = [];
+      this.listeDelegations = [
+        ...new Set(
+          tunisia
+            .filter((item) => item.Gov === this.gouvernorat)
+            .map((item) => item.Deleg)
+        ),
+      ];
+      console.log(this.listeDelegations);
+    },
+
+    updateLocalite() {
+      this.listeLocalite = [
+        ...new Set(
+          tunisia
+            .filter((item) => item.Deleg === this.delegation)
+            .map((item) => item.Cite)
+        ),
+      ];
+      console.log(this.listeLocalite);
+    },
+
+    updateDelegationsEdit() {
+      this.listeDelegations = [];
+      this.listeLocalite = [];
+      this.listeDelegations = [
+        ...new Set(
+          tunisia
+            .filter((item) => item.Gov === this.gouvernoratEdit)
+            .map((item) => item.Deleg)
+        ),
+      ];
+    },
+
+    updateLocaliteEdit() {
+      this.listeLocalite = [
+        ...new Set(
+          tunisia
+            .filter((item) => item.Deleg === this.delegationEdit)
+            .map((item) => item.Cite)
+        ),
+      ];
+    },
+
      async get_all_expediteurs(){
         try {
         const response=  await axios.get(`/api/expediteurs/get_all_expediteurs`);
@@ -603,21 +889,25 @@ import layout_admin from "../layouts/layoutAdmin.vue";
             name: this.name,
             email: this.email,
             entreprise:this.entreprise,
-            city:this.city,
+            gouvernorat: this.gouvernorat,
+            delegation: this.delegation,
+            localite: this.localite,
+            address: this.address,
             prix_livraison:this.prix_livraison,
             prix_retour:this.prix_retour,
             phone:this.phone,
-            address:this.address,
             password: this.password,
           });
           this.name = "";
           this.email = "";
           this.entreprise="";
-          this.city="";
+          this.gouvernorat = "";
+          this.delegation = "";
+          this.localite = "";
+          this.address="";
           this.prix_livraison="",
           this.prix_retour="",
           this.phone="";
-          this.address="";
           this.password = "";
 
           const toast = Swal.mixin({
@@ -654,11 +944,13 @@ import layout_admin from "../layouts/layoutAdmin.vue";
     this.nameEdit = expediteur.name;
     this.emailEdit=expediteur.email;
     this.entrepriseEdit=expediteur.entreprise;
-    this.cityEdit=expediteur.city;
+    this.gouvernoratEdit = expediteur.gouvernorat;
+    this.delegationEdit = expediteur.delegation;
+    this.localiteEdit = expediteur.localite;
+    this.addressEdit=expediteur.address;
     this.prix_livraisonEdit=expediteur.prix_livraison;
     this.prix_retourEdit=expediteur.prix_retour;
     this.phoneEdit=expediteur.phone;
-    this.addressEdit=expediteur.address;
     },
 
   async updateExpediteur(expediteur) {
@@ -667,11 +959,13 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         name: this.nameEdit,
         email: this.emailEdit,
         entreprise:this.entrepriseEdit,
-        city:this.cityEdit,
+        gouvernorat: this.gouvernoratEdit,
+        delegation: this.delegationEdit,
+        localite: this.localiteEdit,
+        address: this.addressEdit,
         prix_livraison:this.prix_livraisonEdit,
         prix_retour:this.prix_retourEdit,
         phone:this.phoneEdit,
-        address:this.addressEdit,
     });
 
     if (response.status === 200) {
@@ -696,11 +990,13 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         this.nameEdit = "";
         this.emailEdit = "";
         this.entrepriseEdit="";
-        this.cityEdit="";
+        this.gouvernoratEdit = "";
+        this.delegationEdit = "";
+        this.localiteEdit = "";
+        this.addressEdit="";
         this.prix_livraisonEdit="",
         this.prix_retourEdit="",
         this.phoneEdit="";
-        this.addressEdit="";
     } else {
       this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour de l'expediteur.";
     }
@@ -747,13 +1043,41 @@ disableExpediteur(expediteur) {
 },
 
 
+enableExpediteur(expediteur) {
+  Swal.fire({
+    title: "Êtes-vous sûr(e) ?",
+    text: "Vous ne pourrez pas revenir en arrière !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Oui, Activer le compte !",
+    cancelButtonText: "Annuler",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios
+        .post("/api/expediteur/enable/" + expediteur.id)
+        .then((response) => {
+          this.get_all_expediteurs();
+          console.log(response);
+          Swal.fire("Activé!", "Le compte a été activé avec succès!", "success");
+        })
+        .catch((errors) => {
+          console.log(errors);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Il y a eu un problème!",
+          });
+        });
+    }
+  });
+},
+
     },
   };
   </script>
 
     <style>
-  /* Add your custom styles here if needed */
-  #crudBtn {
-    cursor: pointer;
-  }
+
   </style>

@@ -8,12 +8,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Flash Box</div>
-        </a>
+        <div class="sidebar-brand d-flex align-items-center justify-content-center my-4">
+            <img :src="'../../../../storage/image/logo.png'" style="max-width:90px">
+
+        </div>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -36,29 +34,71 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
-        <!-- Heading -->
-        <div class="sidebar-heading">
-                Utilisateurs
-        </div>
-        <!-- Nav Item - Admins -->
-        <li class="nav-item" :class="{ active: $route.name === 'admins' }">
-          <a :href="$router.resolve({ name: 'admins' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            <span>Admins</span></a
+
+
+
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li
+          class="nav-item"
+          :class="{
+            active:
+              $route.name === 'admins' ||
+              $route.name === 'expediteurs' ||
+              $route.name === 'livreurs',
+          }"
+        >
+          <a
+            class="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapseTwo"
+            aria-expanded="true"
+            aria-controls="collapseTwo"
           >
-        </li>
-        <li class="nav-item" :class="{ active: $route.name === 'expediteurs' }">
-          <a :href="$router.resolve({ name: 'expediteurs' }).href" class="nav-link">
             <i class="fa-solid fa-users"></i>
-            <span>Expéditeurs</span></a
+            <span>Utilisateurs</span>
+          </a>
+          <div
+            id="collapseTwo"
+            class="collapse"
+            aria-labelledby="headingTwo"
+            data-parent="#accordionSidebar"
           >
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a
+                :href="$router.resolve({ name: 'admins' }).href"
+                class="collapse-item"
+              >
+                Admins
+              </a>
+              <a
+                :href="$router.resolve({ name: 'expediteurs' }).href"
+                class="collapse-item"
+              >
+                Expéditeurs
+              </a>
+              <a
+                :href="$router.resolve({ name: 'livreurs' }).href"
+                class="collapse-item"
+              >
+                Livreurs
+              </a>
+            </div>
+          </div>
         </li>
-        <li class="nav-item" :class="{ active: $route.name === 'livreurs' }">
-          <a :href="$router.resolve({ name: 'livreurs' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
-            <span>Livreurs</span></a
-          >
-        </li>
+
+
+
+
+
+
+
+
+
+
+
+
         <!-- Divider -->
         <hr class="sidebar-divider">
 
@@ -69,11 +109,51 @@
 
         <li class="nav-item" :class="{ active: $route.name === 'colis_admin' }">
           <a :href="$router.resolve({ name: 'colis_admin' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-cube"></i>
             <span>Gestion des colis</span></a
           >
         </li>
+<!-- Nav Item - Admins -->
+<li class="nav-item" :class="{ active: $route.name === 'manifeste' }">
+          <a :href="$router.resolve({ name: 'manifeste' }).href" class="nav-link">
+            <i class="fa-solid fa-clipboard-list"></i>
+                   <span>Gestion des manifestes</span></a
+          >
+        </li>
 
+        <!-- Nav Item - Admins -->
+
+
+        <li class="nav-item" :class="{ active: $route.name === 'paiement_colis' }">
+          <a :href="$router.resolve({ name: 'paiement_colis' }).href" class="nav-link">
+            <i class="fa-solid fa-cart-shopping"></i>
+                <span>Paiement des colis</span></a
+          >
+        </li>
+
+        <li class="nav-item" :class="{ active: $route.name === 'paiement' }">
+          <a :href="$router.resolve({ name: 'paiement' }).href" class="nav-link">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Paiement expéditeurs</span></a
+          >
+        </li>
+
+        <li class="nav-item" :class="{ active: $route.name === 'livraison' }">
+          <a :href="$router.resolve({ name: 'livraison' }).href" class="nav-link">
+            <i class="fa-solid fa-cubes-stacked"></i>
+            <span>Livraisons</span></a
+          >
+        </li>
+
+        <li class="nav-item" :class="{ active: $route.name === 'Retour' }">
+          <a :href="$router.resolve({ name: 'Retour' }).href" class="nav-link">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Colis en retour</span></a
+          >
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
        </ul>
     <!-- End of Sidebar -->
 
@@ -110,7 +190,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" :href="$router.resolve({ name: 'profile_admin' }).href">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
@@ -151,7 +231,10 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2021</span>
+                    <span
+                >© Copyright 2024 - FlashBox Made with
+                Envision Agency</span
+              >
                 </div>
             </div>
         </footer>

@@ -1,7 +1,7 @@
 <template>
     <layout_admin ref="table">
       <div
-        class="container shadow p-3"
+        class=" shadow p-3"
         style="background-color: white; position: relative"
       >
         <div class="row">
@@ -75,12 +75,23 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrors.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phone"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrors.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                             <label
                             class="small mb-1"
 
                             for="email"
                             style="float: left"
-                            >E-mail</label
+                            >E-mail(Optionnel)</label
                             >
                             <input
                             :class="['form-control', {'is-invalid': validationErrors.email}]"
@@ -182,12 +193,23 @@
                         </div>
 
                         <div class="mb-3">
+                        <label class="small mb-1" for="phone" style="float: left">Téléphone</label>
+                        <input
+                            :class="['form-control', {'is-invalid': validationErrorsEdit.phone}]"
+                            id="phone"
+                            placeholder="Entrer le numéro de téléphone"
+                            v-model="phoneEdit"
+                        >
+                        <span class="invalid-feedback" v-for="(err, index) in validationErrorsEdit.phone" :key="index">{{ err }}<br></span>
+                        </div>
+
+                        <div class="mb-3">
                             <label
                             class="small mb-1"
 
                             for="email"
                             style="float: left"
-                            >E-mail</label
+                            >E-mail (Optionnel)</label
                             >
                             <input
                             :class="['form-control', {'is-invalid': validationErrorsEdit.email}]"
@@ -229,7 +251,7 @@
 
         <div class="card mb-4">
           <div class="card-header d-flex align-items-center">
-            <i class="fa-solid fa-ticket me-2"></i>
+            <i class="fa-solid fa-users me-2"></i>
           <h5 class="mb-0">Liste des admins</h5>
       </div>
 
@@ -239,6 +261,7 @@
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nom</th>
+              <th scope="col">Téléphone</th>
               <th scope="col">E-mail</th>
               <th scope="col">État</th>
               <th scope="col">Actions</th>
@@ -249,6 +272,7 @@
             <tr>
               <th >{{ admin.id }}</th>
               <td >{{ admin.name }}</td>
+              <td >{{ admin.phone }}</td>
               <td  scope="row">{{ admin.email }}</td>
               <td>
                 <div v-if="admin.disabled==false">
@@ -260,16 +284,27 @@
             </td>
 
               <td >
-                <a
-                  id="crudBtn"
-                  @click="openEditModal(admin)"
-                  class="me-4 text-warning"
-                >
-                  <i class="fa-solid fa-pen-to-square"></i>
-                </a>
-                <a id="crudBtn" @click="disableAdmin(admin)" class="text-danger" v-if="!admin.disabled">
-                    <i class="fa-solid fa-user-lock"></i>
-                </a>
+
+                <a id="crudBtn" @click="openEditModal(admin)" class="btn btn-warning m-2"
+                      ><i class="fa-solid fa-pen-to-square"></i>
+                      <span class="textHover">Modifier</span>
+                      </a
+
+                    >
+
+                    <a  id="crudBtn" @click="disableAdmin(admin)" class="btn btn-danger m-2" v-if="!admin.disabled"
+                      ><i class="fa-solid fa-user-lock"></i>
+                      <span class="textHover">Désactiver</span>
+                      </a
+
+                    >
+
+                    <a  id="crudBtn" @click="enableAdmin(admin)" class="btn btn-success m-2" v-if="admin.disabled"
+                      ><i class="fa-solid fa-unlock"></i>
+                      <span class="textHover">Activer</span>
+                      </a
+
+                    >
               </td>
             </tr>
           </tbody>
@@ -315,7 +350,7 @@
   </template>
 
 <script setup>
-import layout_admin from "../layouts/layoutAdmin.vue";
+import layout_admin from "../layouts/layoutAdmin";
   import {
     checkLoginAdmin,checkDisabledAccount
   } from "../../auth";
@@ -355,11 +390,13 @@ import layout_admin from "../layouts/layoutAdmin.vue";
 
         //create
         name: "",
+        phone:"",
         email: "",
         password: "",
 
         //edit
         adminEdit:[],
+        phoneEdit:"",
         nameEdit: "",
         emailEdit: "",
 
@@ -428,10 +465,12 @@ import layout_admin from "../layouts/layoutAdmin.vue";
         try {
           await axios.post(`/api/admin/create`, {
             name: this.name,
+            phone:this.phone,
             email: this.email,
             password: this.password,
           });
           this.name = "";
+          this.phone = "";
           this.email = "";
           this.password = "";
 
@@ -467,6 +506,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
     this.validationErrorsEdit={}
     this.adminEdit=admin;
     this.nameEdit = admin.name;
+    this.phoneEdit = admin.phone;
     this.emailEdit=admin.email;
     },
 
@@ -474,6 +514,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
   try {
     const response = await axios.put(`/api/admin/update/${admin.id}`, {
       name: this.nameEdit,
+      phone: this.phoneEdit,
       email: this.emailEdit,
     });
 
@@ -497,6 +538,7 @@ import layout_admin from "../layouts/layoutAdmin.vue";
       this.get_all_admins();
       this.adminEdit=[];
       this.nameEdit = "";
+      this.phoneEdit = "";
       this.emailEdit = "";
     } else {
       this.errorMessage = "Une erreur s'est produite lors de la mise Ã  jour de l'admin.";
@@ -544,13 +586,43 @@ disableAdmin(admin) {
 },
 
 
+enableAdmin(admin) {
+  Swal.fire({
+    title: "Êtes-vous sûr(e) ?",
+    text: "Vous ne pourrez pas revenir en arrière !",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Oui, Activer le compte !",
+    cancelButtonText: "Annuler",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios
+        .post("/api/admin/enable/" + admin.id)
+        .then((response) => {
+          this.get_all_admins();
+          console.log(response);
+          Swal.fire("Activé!", "Le compte a été activé avec succès!", "success");
+        })
+        .catch((errors) => {
+          console.log(errors);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Il y a eu un problème!",
+          });
+        });
+    }
+  });
+},
+
+
     },
   };
   </script>
 
     <style>
-  /* Add your custom styles here if needed */
-  #crudBtn {
-    cursor: pointer;
-  }
+
+
   </style>

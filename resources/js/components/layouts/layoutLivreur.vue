@@ -8,12 +8,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Flash Box</div>
-        </a>
+        <div class="sidebar-brand d-flex align-items-center justify-content-center my-4">
+            <img :src="'../../../../storage/image/logo.png'" style="max-width:90px">
+
+        </div>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -34,6 +32,48 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+                Colis
+        </div>
+        <!-- Nav Item - Admins -->
+        <li class="nav-item" :class="{ active: $route.name === 'agence' }">
+          <a :href="$router.resolve({ name: 'agence' }).href" class="nav-link">
+            <i class="fa-solid fa-cube"></i>
+            <span>Gestion des colis</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Admins -->
+        <li class="nav-item" :class="{ active: $route.name === 'pickup_livreur' }">
+          <a :href="$router.resolve({ name: 'pickup_livreur' }).href" class="nav-link">
+            <i class="fa-solid fa-boxes-packing"></i>
+                        <span>Gestion des pickups</span></a
+          >
+        </li>
+
+        <!-- Nav Item - Admins -->
+        <li class="nav-item" :class="{ active: $route.name === 'Encours' }">
+          <a :href="$router.resolve({ name: 'Encours' }).href" class="nav-link">
+            <i class="fa-solid fa-truck-fast"></i>
+                        <span>Livraisons en cours</span></a
+          >
+        </li>
+
+        <li class="nav-item" :class="{ active: $route.name === 'livraison_liv' }">
+          <a :href="$router.resolve({ name: 'livraison_liv' }).href" class="nav-link">
+            <i class="fa-solid fa-cubes-stacked"></i>
+            <span>Historique de Livraisons</span></a
+          >
+        </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+
+
+
 
 
 
@@ -74,7 +114,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" :href="$router.resolve({ name: 'profile_livreur' }).href">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
@@ -115,7 +155,10 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2021</span>
+                    <span
+                >© Copyright 2024 - FlashBox Made with
+                Envision Agency</span
+              >
                 </div>
             </div>
         </footer>

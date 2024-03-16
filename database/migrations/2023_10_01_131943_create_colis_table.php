@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('colis', function (Blueprint $table) {
             //Colis
-            $table->id();
+            $table->id()->start_from(100000000);
             $table->double("prix");
             $table->integer("Nb_pieces");
             $table->string("designation");
@@ -23,6 +24,7 @@ return new class extends Migration
             $table->boolean("echange");
             $table->string("type");
             $table->boolean("fragile");
+            $table->string("etat")->default('En attente');
             //Client
             $table->integer("tel");
             $table->string("nom");
@@ -32,10 +34,15 @@ return new class extends Migration
             $table->string("delegation");
             $table->string("localite");
             $table->string("commentaire")->nullable();
-            $table->boolean("livraison")->default(false);
-
+            $table->unsignedBigInteger('expediteur_id');
+            $table->foreign('expediteur_id')
+            ->references('id')->on('users')->onDelete('cascade');
+            $table->boolean("payer")->default(0);
             $table->timestamps();
+
         });
+
+        DB::statement('ALTER TABLE colis AUTO_INCREMENT = 100000000;');
     }
 
     /**

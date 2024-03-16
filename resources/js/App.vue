@@ -62,4 +62,24 @@
     text-align: left;
     color:black;
 }
+
+#crudBtn {
+    cursor: pointer;
+
+  }
+  #crudBtn .textHover {
+  visibility: hidden;
+  width: 100px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px 0;
+
+  position: absolute;
+  margin-top: 25px;
+}
+#crudBtn:hover .textHover {
+    visibility: visible;
+}
 </style>

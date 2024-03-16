@@ -8,12 +8,10 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
-            </div>
-            <div class="sidebar-brand-text mx-3">Flash Box</div>
-        </a>
+        <div class="sidebar-brand d-flex align-items-center justify-content-center my-4">
+            <img :src="'../../../../storage/image/logo.png'" style="max-width:90px">
+
+        </div>
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
@@ -42,12 +40,26 @@
         <!-- Nav Item - Admins -->
         <li class="nav-item" :class="{ active: $route.name === 'colis_expediteur' }">
           <a :href="$router.resolve({ name: 'colis_expediteur' }).href" class="nav-link">
-            <i class="fa-solid fa-users"></i>
+            <i class="fa-solid fa-cube"></i>
             <span>Gestion des colis</span></a
           >
         </li>
+
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Heading -->
+        <div class="sidebar-heading">
+                Paiement
+        </div>
+        <!-- Nav Item - Admins -->
+        <li class="nav-item" :class="{ active: $route.name === 'paiement_expediteur_layout' }">
+          <a :href="$router.resolve({ name: 'paiement_expediteur_layout' }).href" class="nav-link">
+            <i class="fa-solid fa-cash-register"></i>
+            <span>Historique de paiements</span></a
+          >
+        </li>
+
 
 
        </ul>
@@ -86,7 +98,7 @@
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                             aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="#">
+                            <a class="dropdown-item" :href="$router.resolve({ name: 'profile_expediteur' }).href">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Profile
                             </a>
@@ -127,7 +139,10 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2021</span>
+                    <span
+                >© Copyright 2024 - FlashBox Made with
+                Envision Agency</span
+              >
                 </div>
             </div>
         </footer>

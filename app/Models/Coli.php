@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Historique;
+use App\Models\User;
 
 class Coli extends Model
 {
@@ -28,4 +30,15 @@ class Coli extends Model
         'commentaire',
         'livraison',
     ];
+
+
+    public function historiques()
+    {
+        return $this->hasMany(Historique::class);
+    }
+
+    public function expediteur()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
